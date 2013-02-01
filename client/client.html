@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Client</title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+					var res = { body: null, chunks: [] };
+					var req = new XMLHttpRequest();
+					req.open('POST', '/listen', true);
+
+					req.onreadystatechange = function() {
+						if (req.responseText.length > 0) {
+							var chunk = JSON.parse(res.body ?
+								req.responseText.substring(res.body.length) : req.responseText);
+
+							res.body = req.responseText;
+							res.chunks.push(chunk);
+
+							console.log(chunk);
+
+
+							setInterval(function() { 
+								$.get('/count', function(data) {
+									var result = JSON.parse(data);
+									console.log(result);
+								  $('#connCount').html(result.connections);
+								  addPoint(result.connections);
+								});
+							}, 1000)
+						}
+					};
+
+					req.send();
+					console.log('send request');
+
+
+
+					var canvas = document.getElementById('dotCanvas');
+
+					var dotPoints = new Array();
+					function addPoint(pointValue) {
+						if(dotPoints.length > 20) {
+							dotPoints.splice(1, 1);
+						}
+
+						dotPoints.push(pointValue);
+
+						draw();
+					}
+
+					function draw() {
+						var ctx = canvas.getContext('2d');
+
+						// clear canvas
+						ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+						ctx.beginPath();
+						
+						
+
+						var counter = 0;
+						
+						for(point in dotPoints) {
+							var value = dotPoints[point];
+
+							if(counter == 0) {
+								ctx.moveTo(counter, canvas.height - value/20);
+							} else {
+								ctx.lineTo(counter, canvas.height - value/20);
+							}
+
+
+							counter += 10;
+						}
+
+						ctx.stroke();
+					}
+			});
+
+
+
+		</script>
+	</head>
+	<body>
+		<div id="connCount"></div>
+		<canvas id="dotCanvas" width="200" height="400"></canvas>
+	</body>
+</html>
