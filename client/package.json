@@ -2,14 +2,16 @@
   "name": "meetup-demo",
   "version": "0.0.0",
   "description": "Node.js Tallinn Meetup demo",
-  "main": "server.js",
+  "main": "deploy-benchmark.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
   "dependencies": {
-    "express": "3.x",
-    "async": "*"
+    "optimist": "*",
+    "async": "*",
+    "shync": "*",
+    "nodeload": "git+ssh://git@github.com:harrisiirak/nodeload.git"
   },
   "repository": "",
   "author": "",
