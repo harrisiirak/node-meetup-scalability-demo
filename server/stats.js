@@ -1,6 +1,7 @@
 var exec = require('child_process').exec;
 var async = require('async');
-var util = require('util')
+var util = require('util');
+var fs = require('fs');
 
 var stats = {
   memory: {
@@ -23,8 +24,6 @@ var speed =  { tx: 0, rx: 0 };
 var collectingConnections = false;
 
 setInterval(function() {
-  console.log(util.inspect(stats, false, 100));
-
   async.waterfall([
     function(next) {
       if (!collectingConnections) {
@@ -96,6 +95,12 @@ setInterval(function() {
           next();
         }
       );
+    },
+
+    function(next) {
+      fs.writeFile('./stats.json', JSON.stringify(stats), function() {
+        next();
+      });
     }
   ],
   function(err) {
