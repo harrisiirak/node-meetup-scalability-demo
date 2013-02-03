@@ -35,25 +35,37 @@ setInterval(function() {
 setInterval(function() {
   Chat.findChannel('quotes', function(err, channel) {
     channel.stats(function(err, info) {
-      console.log('Users: ' + info.users);
+      console.log('#quotes Users: ' + info.users);
+    });
+  });
+
+  Chat.findChannel('lobby', function(err, channel) {
+    channel.stats(function(err, info) {
+      console.log('#lobby Users: '+ info.users);
     });
   });
 }, 5000);
 
 var app = express();
 
+app.use(express.bodyParser());
+
 app.get('/register', function(req, res, next) {
+  console.log(req.query);
   Chat.listen(res, req.query.user, req.query.channel, function(err) {
     if (err) {
       return res.send(405, err.message);
     }
-
-    res.writeHead(200, { 'Content-Type': 'application/json', 'Transfer-Encoding': 'chunked' });
+    console.log("No error!");
+    res.writeHead(200, {'Content-Type': 'application/json', 'Transfer-Encoding': 'chunked' });
+    res.end();
   });
 });
 
 app.post('/send', function(req, res, next) {
-  var message = res.body;
+  var message = req.body;
+
+  console.log("Got message"+ message);
   if (message) {
     Chat.findChannel(message.channel, function(err, channel) {
       channel.broadcast(message, function() {
@@ -61,8 +73,11 @@ app.post('/send', function(req, res, next) {
       });
     });
   }
+
+  res.end();
 });
 
 app.use('/stats', require('./modules/stats/app'));
+app.use('/chat', require('./modules/chat/app'));
 
-app.listen(10000);
+app.listen(10001);

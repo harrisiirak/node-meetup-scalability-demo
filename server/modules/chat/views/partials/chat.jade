@@ -1,0 +1,4 @@
+div 
+  form(name='chatForm',ng-submit='sendMsg()')
+    input(name='msg',ng-model='msg',placeholder='Write something here',required,ng-minlength=1)
+    input(name='submit',value='send',type='submit',ng-disabled='!chatForm.$valid')

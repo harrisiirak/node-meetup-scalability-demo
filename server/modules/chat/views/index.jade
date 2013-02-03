@@ -1,0 +1,14 @@
+html(ng-app='Chat')
+  head
+    meta(charset='utf-8')
+    title Node meetup chat
+
+    link(href='chat/static/css/reset.css',type='text/css',rel='stylesheet')
+    link(href='chat/static/css/style.css',type='text/css',rel='stylesheet')
+
+    script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular.min.js')
+    script(src='chat/static/js/app.js')
+
+  body
+    div(class='container',ng-controller="MainController")
+      div(class='viewContainer',ng-view)

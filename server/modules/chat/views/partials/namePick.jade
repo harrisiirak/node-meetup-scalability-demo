@@ -1,0 +1,11 @@
+label
+  Please pick your username
+    form(name='usernameForm',ng-submit="setUsername()")
+      input(name='userName',ng-model='username',ng-minlength=5,ng-maxlength=15,required)
+      input(type='submit',name='submit',value='Pick',ng-disabled='!usernameForm.$valid')
+      br
+      span(class='error',ng-show='usernameForm.userName.$error.minlength') Too short!
+      span(class='error',ng-show='usernameForm.userName.$error.maxlength') Too long!
+      span(class='error',ng-show='usernameForm.userName.$error.required') Required!
+      span(class='error',ng-show='error.length > 0') {{ error }}
+      br
