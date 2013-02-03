@@ -21,7 +21,7 @@ Stats.controller('StatsController', function($scope, $http, $timeout, meters) {
   $scope.update = function() {
     $timeout(function() {
       $http.get('/stats/json').success(function(stats) {
-        meters.cpu.update(stats.load / 100, stats.load);
+        meters.cpu.update(stats.load / 100, Math.round(stats.load));
         meters.ram.update(stats.memory.used / stats.memory.total, Math.round(stats.memory.used / 1024));
 
         $scope.stats = stats;

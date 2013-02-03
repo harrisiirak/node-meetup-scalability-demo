@@ -1,3 +1,5 @@
+// forever start stats.js
+
 var exec = require('child_process').exec;
 var async = require('async');
 var util = require('util');
@@ -66,10 +68,22 @@ setInterval(function() {
     },
 
     function(next) {
-      exec('ps aux | grep server.js | awk \'{print $2}\'',
+      exec('ps aux | grep server.js | awk \'{print $2, $11, $12}\'',
         function(err, stdout, stderr) {
-          var lines = stdout.split('\n').reverse();
-          var pid = parseFloat(lines[1]);
+          var pid = null;
+          var lines = stdout.split('\n');
+
+          lines.some(function(line, index) {
+            var atoms = line.split(' ');
+            if (atoms[1] === '/usr/local/bin/node' && atoms[2] === (process.cwd() + '/server.js')) {
+              pid = parseInt(atoms[0]);
+              return false;
+            }
+
+            return true;
+          });
+
+          if (!pid) return next();
 
           exec('cat /proc/' + pid + '/stat',
             function(err, stdout, stderr) {

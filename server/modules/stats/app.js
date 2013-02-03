@@ -23,4 +23,5 @@ app.get('/json', function(req, res, next) {
   });
 });
 
+app.locals.pretty = true;
 module.exports = app;

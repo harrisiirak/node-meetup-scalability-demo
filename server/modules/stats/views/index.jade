@@ -17,8 +17,7 @@ html(ng-app='Stats')
             strong Bandwidth: &nbsp;
             span {{ stats.network.tx / 1024 | round }} kb/s (out) /&nbsp;
             span {{ stats.network.rx / 1024 | round }} kb/s (in)
-          p
-          div
+          div(class='connections')
             strong Connections: &nbsp;
             span {{ stats.network.c.total }} <br />
             span(ng-repeat='client in stats.network.c.clients')
