@@ -77,10 +77,10 @@ setInterval(function() {
             var atoms = line.split(' ');
             if (atoms[1] === '/usr/local/bin/node' && atoms[2] === (process.cwd() + '/server.js')) {
               pid = parseInt(atoms[0]);
-              return false;
+              return true;
             }
 
-            return true;
+            return false;
           });
 
           if (!pid) return next();
@@ -145,6 +145,6 @@ setInterval(function() {
   ],
   function(err) {
     //console.log(err);
-    console.log(util.inspect(stats, false, 100));
+    //console.log(util.inspect(stats, false, 100));
   });
 }, 1000);
