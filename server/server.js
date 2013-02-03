@@ -63,4 +63,6 @@ app.post('/send', function(req, res, next) {
   }
 });
 
+app.use('/stats', require('./modules/stats/app'));
+
 app.listen(10000);

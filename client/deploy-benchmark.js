@@ -33,10 +33,10 @@ function startTest() {
       userProfile: [
         [ 0, 100 ],
         [ 70, 3800 ],
-        [ 95, 5000 ],
-        [ 120, 6800 ],
-        [ 150, 8000 ],
-        [ 210, 10000 ]
+        [ 100, 5000 ],
+        [ 130, 6800 ],
+        [ 170, 8000 ],
+        [ 230, 10000 ]
       ],
       requestGenerator: function(client) {
         var req = client.request('GET', '/register?user=user' + (Math.round(Math.random() * 1000000)) + '&channel=quotes');

@@ -31,6 +31,11 @@ setInterval(function() {
 
         exec('netstat -ntu | grep :10000 | awk \'{print $5}\' | cut -d: -f1 | sort | uniq -c | sort -n -r',
           function(err, stdout, stderr) {
+            if (stdout.length === 0) {
+              collectingConnections = false;
+              return next();
+            }
+
             var total = 0;
             var clients = [];
             var lines = stdout.split('\n');
@@ -50,6 +55,8 @@ setInterval(function() {
             stats.network.c.total = total;
             stats.network.c.clients = clients;
             collectingConnections = false;
+
+            next();
           }
         );
       } else {
@@ -98,11 +105,13 @@ setInterval(function() {
     },
 
     function(next) {
-      fs.writeFile('./stats.json', JSON.stringify(stats), function() {
-        next();
+      fs.writeFile('./stats.json', JSON.stringify(stats), function(err) {
+        next(err);
       });
     }
   ],
   function(err) {
+    console.log(err);
+    console.log(util.inspect(stats, false, 100));
   });
 }, 1000);
