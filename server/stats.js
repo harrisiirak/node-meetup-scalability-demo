@@ -68,8 +68,8 @@ setInterval(function() {
     function(next) {
       exec('ps aux | grep server.js | awk \'{print $2}\'',
         function(err, stdout, stderr) {
-          var lines = stdout.split('\n');
-          var pid = parseFloat(lines[0]);
+          var lines = stdout.split('\n').reverse();
+          var pid = parseFloat(lines[1]);
 
           exec('cat /proc/' + pid + '/stat',
             function(err, stdout, stderr) {
