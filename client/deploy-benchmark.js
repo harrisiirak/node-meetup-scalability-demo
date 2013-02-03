@@ -32,11 +32,12 @@ function startTest() {
       timeLimit: 6000,
       userProfile: [
         [ 0, 100 ],
-        [ 70, 3800 ],
-        [ 100, 5000 ],
-        [ 130, 6800 ],
-        [ 170, 8000 ],
-        [ 230, 10000 ]
+        [ 80, 3800 ],
+        [ 110, 5000 ],
+        [ 140, 6800 ],
+        [ 190, 8000 ],
+        [ 250, 10000 ],
+        [ 270, 10100 ]
       ],
       requestGenerator: function(client) {
         var req = client.request('GET', '/register?user=user' + (Math.round(Math.random() * 1000000)) + '&channel=quotes');

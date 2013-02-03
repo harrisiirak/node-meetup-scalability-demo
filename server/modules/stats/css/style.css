@@ -1,0 +1,56 @@
+body {
+  font-family: 'Bebas';
+  background-color: #efefef;
+}
+
+p {
+  padding: 0;
+  margin: 0;
+  color: #33342d;
+}
+
+.content-wrapper {
+  width: 960px;
+  height: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.content-main {
+  width: 820;
+  height: 100px;
+  float: left;
+}
+
+.content-main .connections {
+  margin-top: 20px;
+}
+
+.content-side {
+  width:140px;
+  float:right;
+  margin-top:30px;
+}
+
+.content-side p {
+  font-size: 45px;
+  text-align: center;
+  color: #33342d;
+  margin: 0px;
+}
+
+.progress-meter .background {
+  fill: #33342d;
+}
+
+.progress-meter .foreground {
+  fill: #8cc74b;
+}
+
+.ram-progress-meter .background {
+  fill: #33342d;
+}
+
+.ram-progress-meter .foreground {
+  fill: #8cc74b;
+}

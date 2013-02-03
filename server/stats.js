@@ -1,3 +1,5 @@
+// forever start stats.js
+
 var exec = require('child_process').exec;
 var async = require('async');
 var util = require('util');
@@ -21,6 +23,7 @@ var stats = {
 };
 
 var speed =  { tx: 0, rx: 0 };
+var cpu = { time: null };
 var collectingConnections = false;
 
 setInterval(function() {
@@ -65,10 +68,40 @@ setInterval(function() {
     },
 
     function(next) {
-      exec('cat /proc/loadavg | cut -d" " -f 1-3',
+      exec('ps aux | grep server.js | awk \'{print $2, $11, $12}\'',
         function(err, stdout, stderr) {
-          stats.load = stdout.replace('\n', '');
-          next();
+          var pid = null;
+          var lines = stdout.split('\n');
+
+          lines.some(function(line, index) {
+            var atoms = line.split(' ');
+            if (atoms[1] === '/usr/local/bin/node' && atoms[2] === (process.cwd() + '/server.js')) {
+              pid = parseInt(atoms[0]);
+              return true;
+            }
+
+            return false;
+          });
+
+          if (!pid) return next();
+
+          exec('cat /proc/' + pid + '/stat',
+            function(err, stdout, stderr) {
+              var elems = stdout.toString().split(' ');
+              var utime = parseInt(elems[13]);
+              var stime = parseInt(elems[14]);
+              var ctime = utime + stime;
+
+              if (cpu.time !== null) {;
+                var delta = ctime - cpu.time;
+                cpu.percentage = delta;
+                stats.load = cpu.percentage;
+              }
+
+              cpu.time = ctime;
+              next();
+            }
+          );
         }
       );
     },
@@ -111,7 +144,7 @@ setInterval(function() {
     }
   ],
   function(err) {
-    console.log(err);
-    console.log(util.inspect(stats, false, 100));
+    //console.log(err);
+    //console.log(util.inspect(stats, false, 100));
   });
 }, 1000);

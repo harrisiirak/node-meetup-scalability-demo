@@ -2,51 +2,39 @@ html(ng-app='Stats')
   head
     meta(charset='utf-8')
     title Stats
-    style(type='text/css')
-      svg path {
-        stroke: black;
-        stroke-width: 1;
-        fill: none;
-      }
-
-      svg text {
-        stroke black;
-        opacity: 0.5;
-      }
-
-      svg line {
-        stroke: black;
-      }
-
-      svg {
-        border: 1px solid green;
-        border-radius: 12px;
-        padding: 12px;
-        margin: auto;
-      }
+    link(rel='stylesheet',href='stats/static/css/style.css',type='text/css')
   body
     div(ng-controller='StatsController')
-      h2 {{ stats.load }}
-      div
-        strong Memory: &nbsp;
-        span {{ stats.memory.used / 1024 | round }} MB /&nbsp;
-        span {{ stats.memory.total / 1024 | round }} MB &nbsp;
-        span ({{ stats.memory.free / 1024 | round }} MB free)
-      div
-        strong Bandwidth: &nbsp;
-        span {{ stats.network.tx / 1024 | round }} kb/s (out) /&nbsp;
-        span {{ stats.network.rx / 1024 | round }} kb/s (in)
-      p
-      div
-        strong Connections: &nbsp;
-        span {{ stats.network.c.total }} <br />
-        span(ng-repeat='client in stats.network.c.clients')
+      div(class='content-wrapper')
+        div(class='content-main')
+          h2 {{ stats.load }}%
           div
-            strong Host: &nbsp;
-            span {{ client.host }} &nbsp;
+            strong Memory: &nbsp;
+            span {{ stats.memory.used / 1024 | round }} MB /&nbsp;
+            span {{ stats.memory.total / 1024 | round }} MB &nbsp;
+            span ({{ stats.memory.free / 1024 | round }} MB free)
+          div
+            strong Bandwidth: &nbsp;
+            span {{ stats.network.tx / 1024 | round }} kb/s (out) /&nbsp;
+            span {{ stats.network.rx / 1024 | round }} kb/s (in)
+          div(class='connections')
             strong Connections: &nbsp;
-            span {{ client.count }}
+            span {{ stats.network.c.total }} <br />
+            span(ng-repeat='client in stats.network.c.clients')
+              div
+                strong Host: &nbsp;
+                span {{ client.host }} &nbsp;
+                strong Connections: &nbsp;
+                span {{ client.count }}
 
-
+        div(class='content-side')
+          div(class='cpu')
+            p CPU
+            div(class='meter-cpu')
+          div(class='ram')
+            p Memory
+            div(class='meter-ram')
     script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular.min.js')
+    script(src='//d3js.org/d3.v3.min.js')
     script(src='stats/static/js/app.js')
+    script(src='stats/static/js/resource-meter.js')
