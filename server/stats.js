@@ -21,6 +21,7 @@ var stats = {
 };
 
 var speed =  { tx: 0, rx: 0 };
+var cpu = { time: null };
 var collectingConnections = false;
 
 setInterval(function() {
@@ -65,10 +66,28 @@ setInterval(function() {
     },
 
     function(next) {
-      exec('cat /proc/loadavg | cut -d" " -f 1-3',
+      exec('ps aux | grep server.js | awk \'{print $2}\'',
         function(err, stdout, stderr) {
-          stats.load = stdout.replace('\n', '');
-          next();
+          var lines = stdout.split('\n');
+          var pid = parseFloat(lines[0]);
+
+          exec('cat /proc/' + pid + '/stat',
+            function(err, stdout, stderr) {
+              var elems = stdout.toString().split(' ');
+              var utime = parseInt(elems[13]);
+              var stime = parseInt(elems[14]);
+              var ctime = utime + stime;
+
+              if (cpu.time !== null) {;
+                var delta = ctime - cpu.time;
+                cpu.percentage = delta;
+                stats.load = cpu.percentage;
+              }
+
+              cpu.time = ctime;
+              next();
+            }
+          );
         }
       );
     },
@@ -111,7 +130,7 @@ setInterval(function() {
     }
   ],
   function(err) {
-    console.log(err);
+    //console.log(err);
     console.log(util.inspect(stats, false, 100));
   });
 }, 1000);

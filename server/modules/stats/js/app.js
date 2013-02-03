@@ -8,10 +8,17 @@ Stats.filter('round', function() {
   };
 });
 
-Stats.controller('StatsController', function($scope, $http) {
+Stats.controller('StatsController', function($scope, $http, $timeout) {
   $scope.stats = {};
 
-  $http.get('/stats/json').success(function(stats) {
-    $scope.stats = stats;
-  });
+  $scope.update = function() {
+    $timeout(function() {
+      $http.get('/stats/json').success(function(stats) {
+        $scope.stats = stats;
+      });
+      $scope.update();
+    }, 1000);
+  };
+
+  $scope.update();
 });
