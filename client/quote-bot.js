@@ -42,4 +42,4 @@ var quotes = [
 
 setInterval(function() {
   sendMessage('quote-bot', quotes[Math.ceil(Math.random() * quotes.length) - 1]);
-}, 1000);
+}, 20000);
