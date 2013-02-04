@@ -16,14 +16,12 @@ app.get('/register', function(req, res, next) {
       return res.send(405, err.message);
     }
 
-    res.writeHead(200, {'Content-Type': 'application/json', 'Transfer-Encoding': 'chunked' });
-    res.end();
+    res.writeHead(200, { 'Content-Type': 'application/json', 'Transfer-Encoding': 'chunked' });
   });
 });
 
 app.post('/send', function(req, res, next) {
   var message = req.body;
-
   if (message) {
     Chat.findChannel(message.channel, function(err, channel) {
       channel.broadcast(message, function() {
@@ -33,9 +31,8 @@ app.post('/send', function(req, res, next) {
   } else {
     res.send(500, 'No message');
   }
-
-  res.end();
 });
+
 
 app.use('/stats', require('./modules/stats/app'));
 app.use('/chat', require('./modules/chat/app'));

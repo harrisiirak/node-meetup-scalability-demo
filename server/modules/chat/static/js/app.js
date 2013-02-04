@@ -50,10 +50,10 @@ function ChatController($scope, $http, $location, $rootService) {
 function NameController($scope, $http, $location, $rootService) {
   $scope.setUsername = function() {
     var that = this;
+    $rootService.setUsername(that.username);
+    $location.path('/');
     $http.get('/register?user='+ this.username +'&channel=lobby').success(function(data, code) {
 
-      $rootService.setUsername(that.username);
-      $location.path('/');
 
     }).error(function(data, code) {
 
