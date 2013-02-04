@@ -59,4 +59,4 @@ app.post('/send', function(req, res, next) {
 app.use('/stats', require('./modules/stats/app'));
 app.use('/chat', require('./modules/chat/app'));
 
-app.listen(10001);
+app.listen(10000);
