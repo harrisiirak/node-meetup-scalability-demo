@@ -9,8 +9,12 @@ function Chat() {
 
 Chat._channels = {};
 
-Chat.registerChannel = function(name, connectOnJoin) {
-  Chat._channels[name] = new Channel(name, connectOnJoin || false);
+Chat.registerChannel = function(name, options) {
+  Chat._channels[name] = new Channel(name,
+    options || {
+      announcements: false
+    }
+  );
 };
 
 Chat.unregisterChannel = function(name) {
