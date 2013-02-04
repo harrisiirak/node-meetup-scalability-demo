@@ -5,8 +5,8 @@ var app = express();
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 
-app.use('/static/js', express.static(__dirname + '/js'));
-app.use('/static/css', express.static(__dirname + '/css'));
+app.use('/static/js', express.static(__dirname + '/static/js'));
+app.use('/static/css', express.static(__dirname + '/static/css'));
 
 app.get('/', function(req, res, next) {
   res.render('index');

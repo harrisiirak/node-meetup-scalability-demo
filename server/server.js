@@ -7,34 +7,15 @@ var Chat = require('./lib/chat');
 Chat.registerChannel('quotes', true);
 Chat.registerChannel('lobby');
 
-/*
-setInterval(function() {
-  Chat.findChannel('quotes', function(err, channel) {
-    channel.stats(function(err, info) {
-      console.log('#quotes Users: ' + info.users);
-    });
-  });
-
-  Chat.findChannel('lobby', function(err, channel) {
-    channel.stats(function(err, info) {
-      console.log('#lobby Users: '+ info.users);
-    });
-  });
-}, 5000);
-*/
-
 var app = express();
 app.use(express.bodyParser());
 
-app.use(express.bodyParser());
-
 app.get('/register', function(req, res, next) {
-  console.log(req.query);
   Chat.listen(res, req.query.user, req.query.channel, function(err) {
     if (err) {
       return res.send(405, err.message);
     }
-    console.log("No error!");
+
     res.writeHead(200, {'Content-Type': 'application/json', 'Transfer-Encoding': 'chunked' });
     res.end();
   });
