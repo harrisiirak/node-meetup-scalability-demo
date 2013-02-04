@@ -50,7 +50,7 @@ function createServer() {
   app.use('/stats', require('./modules/stats/app'));
   app.use('/chat', require('./modules/chat/app'));
 
-  app.listen(10000);
+  app.listen(10001);
 }
 
 if (argv.cluster) {
