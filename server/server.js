@@ -32,9 +32,14 @@ app.post('/send', function(req, res, next) {
   }
 });
 
-app.get('/users', function(req, res, next) {
-  if (req.query.channel) {
-    Chat.findChannel(req.query.channel, function(err, channel) {
+app.get('/users/:channel', function(req, res, next) {
+  if (req.params.channel) {
+    Chat.findChannel(req.params.channel, function(err, channel) {
+      if (err || !channel) {
+        res.send(500, 'No channel found');
+        return;
+      }
+
       channel.users(function(users) {
         res.end(JSON.stringify(users));
       });
