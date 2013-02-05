@@ -1,5 +1,6 @@
 var fs = require('fs');
 var express = require('express');
+var Chat = require('../../lib/chat');
 
 var app = express();
 app.set('views', __dirname + '/views');
@@ -19,7 +20,35 @@ app.get('/json', function(req, res, next) {
       return;
     }
 
-    res.end(data.toString());
+    try {
+      var stats = JSON.parse(data);
+      var total = 0;
+      var map = [];
+
+      Object.keys(Chat._connections).forEach(function(host, index) {
+        map.push({ host: host, count: Chat._connections[host] });
+        total += Chat._connections[host];
+      });
+
+      function compare(a, b) {
+        if (a.count > b.count) {
+          return 1;
+        } else if (a.count < b.count) {
+          return -1;
+        }
+
+        return 0;
+      }
+
+      map.sort(compare);
+
+      stats.network.c.total = total;
+      stats.network.c.clients = map;
+    } catch (e) {
+
+    }
+
+    res.end(JSON.stringify(stats));
   });
 });
 

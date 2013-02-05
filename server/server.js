@@ -10,7 +10,10 @@ var app = express();
 app.use(express.bodyParser());
 
 app.get('/register', function(req, res, next) {
-  Chat.listen(res, req.query.user, req.query.channel, function(err) {
+  req.connection.setNoDelay(true);
+  req.connection.setTimeout(0);
+
+  Chat.listen(res, req.ip, req.query.user, req.query.channel, function(err) {
     if (err) {
       return res.send(409, err.message);
     }
@@ -52,4 +55,4 @@ app.get('/users/:channel', function(req, res, next) {
 app.use('/stats', require('./modules/stats/app'));
 app.use('/chat', require('./modules/chat/app'));
 
-app.listen(3333);
+app.listen(10000);

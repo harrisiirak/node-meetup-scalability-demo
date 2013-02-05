@@ -7,6 +7,7 @@ var User = require('./user');
 function Chat() {
 }
 
+Chat._connections = {};
 Chat._channels = {};
 
 Chat.registerChannel = function(name, options) {
@@ -29,12 +30,26 @@ Chat.findChannel = function(name, callback) {
   }
 };
 
-Chat.listen = function(res, userName, channelName, callback) {
+Chat.listen = function(res, address, userName, channelName, callback) {
+  if (!Chat._connections[address]) {
+    Chat._connections[address] = 0;
+  }
+
+  Chat._connections[address]++;
+
   async.waterfall([
     function(next) {
       User.find(userName, function(err, user) {
         if (!user) {
           user = new User(userName, res);
+          user.on('disconnect', function() {
+            Chat._connections[address]--;
+
+            if (Chat._connections[address] === 0) {
+              delete Chat._connections[address];
+            }
+          });
+
           next(null, user);
         } else {
           next(new Error('Username is in use'));

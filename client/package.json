@@ -10,7 +10,8 @@
   "dependencies": {
     "optimist": "*",
     "async": "*",
-    "shync": "*"
+    "shync": "*",
+    "nodeload": "git://github.com/harrisiirak/nodeload.git"
   },
   "repository": "",
   "author": "",
