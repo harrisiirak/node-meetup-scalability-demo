@@ -1,8 +1,8 @@
-label
-  Please pick your username
+div(class='offset3')
+  label Please pick your username
     form(name='usernameForm',ng-submit="setUsername()")
-      input(name='userName',ng-model='username',ng-minlength=5,ng-maxlength=15,required)
-      input(type='submit',name='submit',value='Pick',ng-disabled='!usernameForm.$valid')
+      input(type='text',style='height:auto;margin-bottom:0px',name='userName',ng-model='username',ng-minlength=3,ng-maxlength=15,required) 
+      input(type='submit',name='submit',value='Pick',ng-disabled='!usernameForm.$valid',class='btn btn-success')
       br
       span(class='error',ng-show='usernameForm.userName.$error.minlength') Too short!
       span(class='error',ng-show='usernameForm.userName.$error.maxlength') Too long!

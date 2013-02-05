@@ -2,20 +2,21 @@
 var argv = require('optimist').argv;
 var Shync = require('shync').Shync;
 var async = require('async');
-var nl = require('nodeload');
+var nl = require('./nodeload.js');
 
 var server = {
   host: '176.58.101.215',
   port: 10000
 };
 
-var clients = [ '109.74.200.37', '178.79.180.13', '178.79.173.227', '178.79.132.159', '178.79.140.241' ];
+//var clients = [ '109.74.200.37', '178.79.180.13', '178.79.173.227', '178.79.132.159', '178.79.140.241' ];
 //var clients = [ '109.74.200.37' ];
+var clients = [ '37.0.25.106' ];
 
 var cluster = new Shync({
   domains: clients,
   user: 'root',
-  keyLoc: '~/.ssh/id_rsa.pub',
+  keyLoc: 'C:/Users/Devil/Deskopt/Code/levira',
   bypassFingerprint: true
 });
 

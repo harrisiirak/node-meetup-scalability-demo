@@ -1,4 +1,23 @@
-div 
+div(class='container-fluid chat-container',ng-controller='ChatController')
+  div(class='row-fluid chat-row')
+    div(class='span10 chat-span',id='#chat')
+      div(class='chat-container')
+        div(ng-repeat='chunk in chat',class='chat-msg-row',scroll-if='$last')
+          div(ng-switch on='chunk.type')
+            div(ng-switch-when='msg')
+              b {{ chunk.from }}:
+              {{ chunk.content }}
+            div(ng-switch-when='join')
+              b(class='user-join') {{ chunk.user }} joined the channel
+            div(ng-switch-when='part')
+              b(class='user-part') {{ chunk.user }} left the channel
+
+    div(class='span2')
+      div(ng-repeat='user in users')
+        div
+         b {{ user }}
+  
+
   form(name='chatForm',ng-submit='sendMsg()')
-    input(name='msg',ng-model='msg',placeholder='Write something here',required,ng-minlength=1)
-    input(name='submit',value='send',type='submit',ng-disabled='!chatForm.$valid')
+    input(name='msg',ng-model='msg',placeholder='Write something here',required,ng-minlength=1,class='send-input') 
+    input(name='submit',value='send',type='submit',ng-disabled='!chatForm.$valid',class='btn btn-success')

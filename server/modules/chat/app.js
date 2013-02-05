@@ -4,8 +4,13 @@ var app = express();
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 
+app.use('/static/bootstrap/css', express.static(__dirname + '/static/bootstrap/css'));
+app.use('/static/bootstrap/img', express.static(__dirname + '/static/bootstrap/img'));
+app.use('/static/bootstrap/js', express.static(__dirname + '/static/bootstrap/js'));
+
 app.use('/static/js', express.static(__dirname + '/static/js'));
 app.use('/static/css', express.static(__dirname + '/static/css'));
+
 
 app.get('/', function(req, res, next) {
   res.render('index');

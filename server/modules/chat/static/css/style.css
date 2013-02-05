@@ -1,2 +1,27 @@
 body {
+	font-family: Arial;
+	font-size: 11px;
+	line-height: 14px;
+}
+
+.chat-container {
+	font-size:12px;
+	height:600px;
+	max-height:600px;
+}
+
+.chat-row {
+	height:600px;
+	max-height:600px;
+}
+
+.chat-span {
+	overflow: hidden;
+	overflow-y:auto;
+	height:600px;
+	max-height:600px;
+}
+
+.send-input {
+	width:81%;
 }

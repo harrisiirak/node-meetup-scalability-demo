@@ -12,7 +12,7 @@ app.use(express.bodyParser());
 app.get('/register', function(req, res, next) {
   Chat.listen(res, req.query.user, req.query.channel, function(err) {
     if (err) {
-      return res.send(405, err.message);
+      return res.send(409, err.message);
     }
 
     res.writeHead(200, { 'Content-Type': 'application/json', 'Transfer-Encoding': 'chunked' });
@@ -52,4 +52,4 @@ app.get('/users/:channel', function(req, res, next) {
 app.use('/stats', require('./modules/stats/app'));
 app.use('/chat', require('./modules/chat/app'));
 
-app.listen(10000);
+app.listen(3333);
