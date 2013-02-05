@@ -59,6 +59,15 @@ Channel.prototype.broadcast = function(message, callback) {
   });
 };
 
+Channel.prototype.users = function(callback) {
+  var names = [];
+  this._users.forEach(function(user, index) {
+    names.push(user._name);
+  });
+
+  callback(names);
+};
+
 Channel.prototype.stats = function(callback) {
   return callback(null, {
     users: this._users.length

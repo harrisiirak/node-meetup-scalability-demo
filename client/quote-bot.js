@@ -2,7 +2,7 @@ var http = require('http');
 var argv = require('optimist').argv;
 
 function sendMessage(user, msg) {
-  var data = JSON.stringify({ type: 'msg', channel: 'quotes', from: user, content: msg });
+  var data = JSON.stringify({ type: 'msg', channel: 'lobby', from: user, content: msg });
   var options = {
     hostname: argv.host || config.host,
     port: argv.port || config.port,

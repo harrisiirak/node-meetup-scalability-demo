@@ -49,15 +49,26 @@ function ChatController($scope, $http, $location, $rootService) {
 
 function NameController($scope, $http, $location, $rootService) {
   $scope.setUsername = function() {
-    var that = this;
-    $rootService.setUsername(that.username);
+    var res = { body: null, chunks: [] };
+    var req = new XMLHttpRequest();
+    req.open('GET', '/register?username='+ this.username +'&channel=lobby', true)
+
+    req.onreadystatechange = function() {
+      console.log(req);
+      if (req.responseText.length > 0) {
+        var chunk = JSON.parse(res.body ?
+          req.responseText.substring(res.body.length) : req.responseText);
+
+        res.body = req.responseText;
+        res.chunks.push(chunk);
+
+        console.log(chunk);
+      }
+    };
+
+    req.send();
+      
+    $rootService.setUsername(this.username);
     $location.path('/');
-    $http.get('/register?user='+ this.username +'&channel=lobby').success(function(data, code) {
-
-
-    }).error(function(data, code) {
-
-      $scope.error = data;
-    });
   }
 }
