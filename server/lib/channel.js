@@ -51,10 +51,9 @@ Channel.prototype.broadcast = function(message, callback) {
     return callback(new Error('No users to broadcast'));
   }
 
-  var payload = JSON.stringify(message);
   this._users.forEach(function(user, index) {
     process.nextTick(function() {
-      user.send(payload);
+      user.send(message);
       if (--count === 0) callback();
     });
   });

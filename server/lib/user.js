@@ -14,6 +14,7 @@ function User(name, connection) {
   this._connection.on('close', function() {
     User._users[self._name] = null;
     clearInterval(self._queueTimer);
+    clearInterval(self._pongTimer);
 
     self.emit('disconnect');
   });
@@ -21,6 +22,10 @@ function User(name, connection) {
   this._queueTimer = setInterval(function() {
     self._flushQueue();
   }, 500);
+
+  this._pongTimer = setInterval(function() {
+    self.send({ type: 'ping', timestamp: (new Date().getTime())});
+  }, 60 * 1000);
 }
 
 util.inherits(User, events.EventEmitter);

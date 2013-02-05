@@ -23,5 +23,16 @@ app.get('/json', function(req, res, next) {
   });
 });
 
+app.get('/client', function(req, res, next) {
+  fs.readFile(__dirname + '/views/client.html', function(err, data) {
+    if (err) {
+      res.send(403, err.message);
+      return;
+    }
+
+    res.end(data.toString());
+  });
+});
+
 app.locals.pretty = true;
 module.exports = app;
