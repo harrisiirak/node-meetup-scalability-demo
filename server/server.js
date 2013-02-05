@@ -29,19 +29,18 @@ app.post('/send', function(req, res, next) {
     });
   } else {
     res.send(500, 'No message');
-  });
-}
+  }
+});
 
 app.get('/users', function(req, res, next) {
-  var message = req.body;
-  if (message) {
-    Chat.findChannel(message.channel, function(err, channel) {
-      channel.users(function(users)) {
-        res.end(users);
+  if (req.query.channel) {
+    Chat.findChannel(req.query.channel, function(err, channel) {
+      channel.users(function(users) {
+        res.end(JSON.stringify(users));
       });
     });
   } else {
-    res.send(500, 'No message');
+    res.send(500, 'No channel');
   }
 });
 
