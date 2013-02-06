@@ -3,6 +3,7 @@ html(ng-app='Stats')
     meta(charset='utf-8')
     title Stats
     link(rel='stylesheet',href='stats/static/css/style.css',type='text/css')
+    link(href='http://fonts.googleapis.com/css?family=Fjalla+One',rel='stylesheet',type='text/css')
   body
     div(ng-controller='StatsController')
       div(class='content-wrapper')
@@ -19,13 +20,14 @@ html(ng-app='Stats')
             span {{ stats.network.rx / 1024 | round }} kb/s (in)
           div(class='connections')
             strong Connections: &nbsp;
-            span {{ stats.network.c.total }} <br />
-            span(ng-repeat='client in stats.network.c.clients')
-              div
-                strong Host: &nbsp;
-                span {{ client.host }} &nbsp;
-                strong Connections: &nbsp;
-                span {{ client.count }}
+            span(class='green') {{ stats.network.c.total }} <br />
+            div(class='hosts')
+              span(ng-repeat='client in stats.network.c.clients')
+                div
+                  strong Host: &nbsp;
+                  span {{ client.host }} &nbsp;
+                  strong Connections: &nbsp;
+                  span {{ client.count }}
 
         div(class='content-side')
           div(class='cpu')

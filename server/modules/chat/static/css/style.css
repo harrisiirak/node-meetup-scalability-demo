@@ -1,11 +1,11 @@
 body {
 	font-family: Arial;
-	font-size: 11px;
-	line-height: 14px;
+	font-size: 14px;
+	line-height: 18px;
 }
 
 .chat-container {
-	font-size:12px;
+	font-size:14px;
 	height:600px;
 	max-height:600px;
 }
@@ -24,4 +24,15 @@ body {
 
 .send-input {
 	width:81%;
+}
+
+.big {
+	/* font-size: 16px; 
+	line-height: 20px; */
+	color:#66cdaa;
+}
+
+.important {
+	color:#1e90ff;
+	font-weight: bold;
 }

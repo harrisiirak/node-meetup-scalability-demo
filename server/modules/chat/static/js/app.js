@@ -34,6 +34,16 @@ Chat.factory('$rootService', function() {
   }
 });
 
+Chat.filter('specialText', function() {
+  return function(input) {
+    if(input.charAt(0) == '»') {
+      return input.slice(1, input.length);
+    } else {
+      return input;
+    }
+  }
+})
+
 function MainController($scope, $http, $location) {
   $scope.chat = [];
   $scope.users = [];
@@ -42,6 +52,11 @@ function MainController($scope, $http, $location) {
     // we're using $scope.$apply here so the view would instantly refresh
     $scope.$apply(function() {
         $scope.chat.push(chunk);
+
+        // client side chat buffer, don't let the chat array go bigger than 200
+        if($scope.chat.length > 200) {
+          $scope.chat.splice(0, 1);
+        }
     });
   }
 
@@ -55,6 +70,7 @@ function MainController($scope, $http, $location) {
 function ChatController($scope, $http, $location, $rootService) {
   console.log('Welcome to chat');
 
+  $scope.highlight = null;
   // current user name
   var username = $rootService.getUsername();
 
@@ -66,6 +82,16 @@ function ChatController($scope, $http, $location, $rootService) {
     $http.post('/send', {type: 'msg', channel: 'lobby', from: username, content: this.msg}).success(function(data) {});
     this.msg = '';
   }
+
+  $scope.userMouseOver = function(e) {
+    console.log('Mouse over');
+    $scope.highlight = angular.element(e.srcElement).html();
+   
+  }
+  $scope.userMouseOut = function(e) {
+    console.log('Mouse out');
+    $scope.highlight = null;
+  }
 }
 
 function NameController($scope, $http, $location, $rootService) {
@@ -75,6 +101,9 @@ function NameController($scope, $http, $location, $rootService) {
     var res = { body: null, chunks: [] };
     var req = new XMLHttpRequest();
     req.open('GET', '/register?user='+ this.username +'&channel=lobby', true)
+
+
+
 
     req.onreadystatechange = function() {
       console.log(req);
@@ -86,11 +115,23 @@ function NameController($scope, $http, $location, $rootService) {
       }
 
 
-      // readyState 2 means that we have a successful connection up and running, set username and DO IIIT
+      $scope.updateUsers = function() {
+        // we're using timeout here because otherwise launching that function will end up in $digest already running error ($http runs it)
+        $http.get('/users/lobby').success(function(data) {
+              setTimeout(function() {
+                $scope.editUsers(data);
+                console.log('Updating users', $scope.users);
+              }, 500)
+        });
+      }
+
+      // readyState 2 with 200 means that we have a successful connection up and running, set username and DO IIIT
       if(req.readyState == 2 && req.status == 200) {
         $rootService.setUsername(that.username);
-
         $scope.$apply(function() {
+          // also update user list
+          $scope.updateUsers();
+
           $location.path('/');
         })
       }      
@@ -108,17 +149,11 @@ function NameController($scope, $http, $location, $rootService) {
           $scope.addToChat(chunk[chunk.length-1]);
 
         if(chunk[chunk.length-1].type == 'join') {
-          // we're using timeout here because launching that function will end up in $digest already running error ($http runs it
-          $http.get('/users/lobby').success(function(data) {
-            setTimeout(function() {$scope.editUsers(data);}, 200)
-          });
+          $scope.updateUsers();
         }
 
         if(chunk[chunk.length-1].type == 'part') {
-          // we're using timeout here because launching that function will end up in $digest already running error ($http runs it
-          $http.get('/users/lobby').success(function(data) {
-            setTimeout(function() {$scope.editUsers(data);}, 200)
-          });
+          $scope.updateUsers();
         }
 
       }
