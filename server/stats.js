@@ -24,49 +24,9 @@ var stats = {
 
 var speed =  { tx: 0, rx: 0 };
 var cpu = { time: null };
-var collectingConnections = false;
 
 setInterval(function() {
   async.waterfall([
-    function(next) {
-      if (!collectingConnections) {
-        collectingConnections = true;
-
-        exec('netstat -ntu | grep :10000 | awk \'{print $5}\' | cut -d: -f1 | sort | uniq -c | sort -n -r',
-          function(err, stdout, stderr) {
-            if (stdout.length === 0) {
-              collectingConnections = false;
-              return next();
-            }
-
-            var total = 0;
-            var clients = [];
-            var lines = stdout.split('\n');
-
-            lines.forEach(function(line, index) {
-              line = line.replace(/^\s+|\s+$/g, '');
-
-              var atoms = line.split(' ');
-              if (atoms.length !== 2) {
-                return;
-              }
-
-              clients.push({ host: atoms[1], count: atoms[0] });
-              total += parseInt(atoms[0]);
-            });
-
-            stats.network.c.total = total;
-            stats.network.c.clients = clients;
-            collectingConnections = false;
-
-            next();
-          }
-        );
-      } else {
-        next();
-      }
-    },
-
     function(next) {
       exec('ps aux | grep server.js | awk \'{print $2, $11, $12}\'',
         function(err, stdout, stderr) {

@@ -32,9 +32,9 @@ app.get('/json', function(req, res, next) {
 
       function compare(a, b) {
         if (a.count > b.count) {
-          return 1;
-        } else if (a.count < b.count) {
           return -1;
+        } else if (a.count < b.count) {
+          return 1;
         }
 
         return 0;

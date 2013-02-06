@@ -33,14 +33,13 @@ function startTest() {
       userProfile: [
         [ 0, 100 ],
         [ 80, 3800 ],
-        [ 110, 5000 ],
-        [ 140, 6800 ],
-        [ 190, 8000 ],
-        [ 250, 10000 ],
-        [ 270, 10100 ]
+        [ 140, 5000 ],
+        [ 200, 6800 ],
+        [ 240, 8000 ],
+        [ 300, 9000 ]
       ],
       requestGenerator: function(client) {
-        var req = client.request('GET', '/register?user=user' + (Math.round(Math.random() * 1000000)) + '&channel=quotes');
+        var req = client.request('GET', '/register?user=user' + (Math.round(Math.random() * 10000000)) + '&channel=quotes');
 
         req.on('response', function(res) {
           res.on('data', function(chunk) {

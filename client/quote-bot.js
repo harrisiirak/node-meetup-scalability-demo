@@ -18,6 +18,7 @@ function sendMessage(user, msg) {
   var req = http.request(options, function(res) {
     res.setEncoding('utf8');
     console.log('Message sent: ' + data);
+    req.abort();
   });
 
   req.on('error', function(e) {
@@ -42,4 +43,4 @@ var quotes = [
 
 setInterval(function() {
   sendMessage('quote-bot', quotes[Math.ceil(Math.random() * quotes.length) - 1]);
-}, 20000);
+}, 2000);
