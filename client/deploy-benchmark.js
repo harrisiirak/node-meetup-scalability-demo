@@ -36,7 +36,7 @@ function startTest() {
         [ 140, 5000 ],
         [ 200, 6800 ],
         [ 240, 8000 ],
-        [ 300, 9000 ]
+        [ 270, 8500 ]
       ],
       requestGenerator: function(client) {
         var req = client.request('GET', '/register?user=user' + (Math.round(Math.random() * 10000000)) + '&channel=quotes');
