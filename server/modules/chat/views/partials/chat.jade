@@ -5,8 +5,11 @@ div(class='container-fluid chat-container',ng-controller='ChatController')
         div(ng-repeat='chunk in chat',class='chat-msg-row',scroll-if='$last')
           div(ng-switch on='chunk.type')
             div(ng-switch-when='msg')
-              b {{ chunk.from }}:
-              {{ chunk.content }}
+              b(ng-show='highlight == chunk.from',class='big') {{ chunk.from }}:
+              b(ng-show='highlight != chunk.from') {{ chunk.from }}:
+              
+              span(ng-show='chunk.content.charAt(0) == "»"',class='important') {{ chunk.content|specialText }}
+              span(ng-show='chunk.content.charAt(0) != "»"') {{ chunk.content }}
             div(ng-switch-when='join')
               b(class='user-join') {{ chunk.user }} joined the channel
             div(ng-switch-when='part')
@@ -15,7 +18,7 @@ div(class='container-fluid chat-container',ng-controller='ChatController')
     div(class='span2')
       div(ng-repeat='user in users')
         div
-         b {{ user }}
+         b(ng-mouseover='userMouseOver($event)',ng-mouseout='userMouseOut($event)') {{ user }}
   
 
   form(name='chatForm',ng-submit='sendMsg()')

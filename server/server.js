@@ -55,4 +55,4 @@ app.get('/users/:channel', function(req, res, next) {
 app.use('/stats', require('./modules/stats/app'));
 app.use('/chat', require('./modules/chat/app'));
 
-app.listen(10000);
+app.listen(3333);
