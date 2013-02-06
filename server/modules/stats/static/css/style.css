@@ -3,7 +3,7 @@ body {
   color:#232323;
   font-size:30px;
   background-color: #efefef;
-  text-shadow: 2px 2px #fff;
+  text-shadow: 0px 2px #fff;
 }
 
 p {
@@ -37,7 +37,12 @@ p {
 
 .green {
   font-size: 45px;
-  color: #8cc74b;
+  color: #000;
+}
+
+.connection-content {
+  margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 .content-side {

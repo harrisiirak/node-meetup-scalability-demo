@@ -15,7 +15,7 @@ div(class='container-fluid chat-container',ng-controller='ChatController')
             div(ng-switch-when='part')
               b(class='user-part') {{ chunk.user }} left the channel
 
-    div(class='span2')
+    div(class='span2 user-list')
       div(ng-repeat='user in users')
         div
          b(ng-mouseover='userMouseOver($event)',ng-mouseout='userMouseOut($event)') {{ user }}

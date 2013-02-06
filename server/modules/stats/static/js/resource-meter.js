@@ -29,7 +29,7 @@
       .attr('class', 'text')
       .attr('text-anchor', 'middle')
       .attr('dy', '.35em')
-      .attr('fill', '#8cc74b')
+      .attr('fill', '#000')
       .attr('font-family', 'Bebas, Helvetica Neue, Helvetica, Arial, sans-serif')
       .attr('font-weight', 'bold')
       .attr('font-size', '38px');

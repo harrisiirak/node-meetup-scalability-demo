@@ -26,6 +26,11 @@ body {
 	width:81%;
 }
 
+.user-list {
+	height:600px;
+	overflow-y:auto;
+}
+
 .big {
 	/* font-size: 16px; 
 	line-height: 20px; */

@@ -9,7 +9,9 @@ html(ng-app='Stats')
     div(ng-controller='StatsController')
       div(class='content-wrapper')
         div(class='content-main')
-          h2 {{ stats.load }}%
+          div(class='connection-content')
+            strong Connections: &nbsp;
+              span(class='green') {{ stats.network.c.total }} <br />
           div
             strong Memory: &nbsp;
             span {{ stats.memory.used / 1024 | round }} MB /&nbsp;
@@ -20,8 +22,6 @@ html(ng-app='Stats')
             span {{ stats.network.tx / 1024 | round }} kb/s (out) /&nbsp;
             span {{ stats.network.rx / 1024 | round }} kb/s (in)
           div(class='connections')
-            strong Connections: &nbsp;
-            span(class='green') {{ stats.network.c.total }} <br />
             div(class='hosts')
               span(ng-repeat='client in stats.network.c.clients')
                 div
@@ -32,7 +32,7 @@ html(ng-app='Stats')
 
         div(class='content-side')
           div(class='cpu')
-            p CPU
+            p CPU %
             div(class='meter-cpu')
           div(class='ram')
             p Memory
