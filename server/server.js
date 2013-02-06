@@ -9,6 +9,10 @@ Chat.registerChannel('lobby', { announcements: true });
 var app = express();
 app.use(express.bodyParser());
 
+app.get('/', function(req, res, next) {
+  res.redirect('/stats');
+});
+
 app.get('/register', function(req, res, next) {
   req.connection.setNoDelay(true);
   req.connection.setTimeout(0);
