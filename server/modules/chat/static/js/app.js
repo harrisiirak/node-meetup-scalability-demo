@@ -96,8 +96,14 @@ function ChatController($scope, $http, $location, $rootService) {
 
 function NameController($scope, $http, $location, $rootService) {
   $scope.setUsername = function() {
+
     $scope.error = null;
     var that = this;
+    
+    if(!this.username) {
+      return;
+    }
+
     var res = { body: null, chunks: [] };
     var req = new XMLHttpRequest();
     req.open('GET', '/register?user='+ this.username +'&channel=lobby', true)
